@@ -79,10 +79,13 @@ public class MainActivity extends AppCompatActivity {
                 .setTargetRotation(getWindowManager().getDefaultDisplay().getRotation()).build();
         final ImageCapture imgCap = new ImageCapture(imageCaptureConfig);
 
+
+        CameraX.bindToLifecycle((LifecycleOwner)this, preview, imgCap);
         findViewById(R.id.imgCapture).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                File file = new File(/*Environment.getExternalStorageDirectory()*/ "/sdcard/photos/DCIM(0)/Camera/CameraX_" + System.currentTimeMillis() + ".jpg");
+                File file = new File(/*getFilesDir()*/ "/storage/emulated/0/Pictures/CameraX_" + System.currentTimeMillis() + ".jpg");
+//                File file = new File(/*Environment.getExternalStorageDirectory()*/ "/sdcard/photos/DCIM(0)/Camera/CameraX_" + System.currentTimeMillis() + ".jpg");
                 imgCap.takePicture(file, new ImageCapture.OnImageSavedListener() {
                     @Override
                     public void onImageSaved(@NonNull File file) {
@@ -101,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
-
-        CameraX.bindToLifecycle((LifecycleOwner)this, preview, imgCap);
     }
 
     private void updateTransform(){
